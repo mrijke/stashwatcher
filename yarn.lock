@@ -3297,6 +3297,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jssha@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/jssha/-/jssha-1.6.0.tgz#67acf0b90fdebb9bb3fe3a44e6016cf2cf0670b9"
+
 jwa@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/jwa/-/jwa-1.1.5.tgz#a0552ce0220742cd52e153774a32905c30e756e5"
@@ -4716,6 +4720,10 @@ redux-logger@^2.7.4:
   dependencies:
     deep-diff "0.3.4"
 
+redux-persist@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.4.0.tgz#a1062313546a9d4ca6f9271464d18f736e8ca394"
+
 redux-saga@0.16.0:
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
@@ -5777,6 +5785,12 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
+
+wallet-address-validator@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/wallet-address-validator/-/wallet-address-validator-0.1.1.tgz#e7023b702d6307e82e80a6cfaaaaa0a9c37df1b7"
+  dependencies:
+    jssha "1.6.0"
 
 watch@~0.10.0:
   version "0.10.0"

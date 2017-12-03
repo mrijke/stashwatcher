@@ -22,8 +22,7 @@ type CoinListProps = {} & ICoinListStateProps & ICoinListDispatchProps;
 
 class CoinListInnerContainer extends React.Component<CoinListProps> {
   public componentDidMount() {
-    this.props.performFetchAddress({ type: "btc", address: "1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD" })
-    this.props.performFetchAddress({ type: "btc", address: "1ZBzVm8PQEVVtKQsr1bi3J1trysnzpiy7" })    
+    this.props.performRefreshAddresses();
   }
   public render() {
     console.log(this.props.addresses)

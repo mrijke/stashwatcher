@@ -33,7 +33,9 @@
     "react-native": "0.50.4",
     "react-redux": "5.0.6",
     "redux": "3.7.2",
+    "redux-persist": "^5.4.0",
     "redux-saga": "0.16.0",
-    "typescript-fsa": "2.5.0"
+    "typescript-fsa": "2.5.0",
+    "wallet-address-validator": "^0.1.1"
   }
 }

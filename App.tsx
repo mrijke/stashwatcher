@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/es/integration/react";
 
-import { store } from './common/redux/index';
+import { store, persistor } from './common/redux/index';
 import { CoinListContainer } from './components/CoinListContainer';
 
 export default class App extends React.Component {
@@ -11,7 +12,9 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-         <CoinListContainer />
+          <PersistGate persistor={persistor}>
+            <CoinListContainer />
+          </PersistGate>
         </View>
       </Provider>
     );

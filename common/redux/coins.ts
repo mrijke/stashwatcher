@@ -53,7 +53,6 @@ export const coinReducer = (state = initialState, action: Action) => {
 }
 
 function* performFetchAddressWorker(action: IFetchAddressAction) {
-  console.log("Doing request for", action)
   try {
     yield put(fetchAddress.started(action.payload));
     const result = yield call(API.balance, action.payload);
