@@ -25,27 +25,27 @@ type CoinListProps = {} & ICoinListStateProps & ICoinListDispatchProps;
 
 class CoinListInnerContainer extends React.Component<CoinListProps> {
   public componentDidMount() {
+    this.props.addAddress({ type: "btc", description: "Main derp", address: "1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD" });
+    this.props.addAddress({ type: "btc", description: "Another one", address: "1MKqXyqntFxqQAUwdKmvp5CQ5CoqrnS8Xp" });
   }
 
   private onRefresh = () => {
     console.log("Refreshing!!!");
-    this.props.performRefreshAddresses();    
+    this.props.performRefreshAddresses();
   }
 
   public render() {
     console.log(this.props.addresses)
     return (
-      <View>
-        <List refreshControl={
-          <RefreshControl
-            refreshing={false}
-            onRefresh={this.onRefresh}
-          />
-        }
-          dataArray={this.props.addresses}
-          renderRow={(item) => <CoinListItem address={item} />}
+      <List refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={this.onRefresh}
         />
-      </View>
+      }
+        dataArray={this.props.addresses}
+        renderRow={(item) => <CoinListItem address={item} />}
+      />
     )
   }
 }

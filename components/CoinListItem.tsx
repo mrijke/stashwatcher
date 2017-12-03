@@ -6,8 +6,11 @@ interface ICoinListItemProps {
   address: IEnhancedAddressInfo
 }
 
-export const CoinListItem = ({address}: ICoinListItemProps) => (
+export const CoinListItem = ({ address }: ICoinListItemProps) => (
   <ListItem avatar>
+    <Left>
+      <Text note>Icon</Text>
+    </Left>
     <Body>
       <Text>{address.description}</Text>
       <Text note>{address.address}</Text>

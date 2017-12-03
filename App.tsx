@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { StackNavigator } from "react-navigation";
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/es/integration/react";
 import { Container, Header, Body, Title, Left, Right, Button, Icon, Content } from "native-base";
@@ -7,6 +8,7 @@ import * as Expo from "expo";
 
 import { store, persistor } from './common/redux/index';
 import { CoinListContainer } from './components/CoinListContainer';
+import { AddAddressForm } from './components/forms/AddAddressForm';
 
 export default class App extends React.Component<{}, { fontLoaded: boolean }> {
 
@@ -28,32 +30,77 @@ export default class App extends React.Component<{}, { fontLoaded: boolean }> {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          {this.state.fontLoaded ? (
-            <Container>
-              <Header>
-                <Body>
-                  <Title>CoinWatcher</Title>
-                </Body>
-                <Right>
-                  <Button transparent>
-                    <Icon name='menu' />
-                  </Button>
-                </Right>
-              </Header>
-              <CoinListContainer />
-            </Container>
-          ) : null}
+          {this.state.fontLoaded ? <RootNavigator /> : null}
         </PersistGate>
       </Provider>
     );
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+class HomeScreen extends React.Component<any> {
+  static navigationOptions = {
+    header: null,
+  }
+
+  public render() {
+    return (
+      <Container style={styles.container}>
+        <Header>
+          <Body>
+            <Title>CoinWatcher</Title>
+          </Body>
+          <Right>
+            <Button transparent>
+              <Icon name='add' onPress={() => this.props.navigation.navigate("AddAddress")} />
+            </Button>
+          </Right>
+        </Header>
+        <Content>
+          <CoinListContainer />
+        </Content>
+      </Container>
+    )
+  }
+}
+
+class AddAddressScreen extends React.Component<any> {
+  static navigationOptions = {
+    header: null
+  }
+  public render() {
+    return (
+      <Container style={styles.container}>
+        <Header>
+          <Left>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Add new address</Title>
+          </Body>
+        </Header>
+        <Content>
+          <AddAddressForm />
+        </Content>
+      </Container>
+    )
+  }
+}
+
+const RootNavigator = StackNavigator({
+  Home: {
+    screen: HomeScreen,
+  },
+  AddAddress: {
+    screen: AddAddressScreen,
+  },
+});
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+});
