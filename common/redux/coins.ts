@@ -11,8 +11,11 @@ import { IRootState } from "./index";
 
 const actionCreator = actionCreatorFactory("COINS");
 
-export interface IEnhancedAddressInfo extends IAddressInfo {
+export interface IEnhancedAddressInfo {
   type: CoinType;
+  description: string;
+  address: string;
+  balanceInfo: IAddressInfo;
 }
 
 const FETCH_ADDRESS = "FETCH_ADDRESS";
@@ -20,12 +23,22 @@ const performFetchAddress = actionCreator<IFetchAddressPayload>(FETCH_ADDRESS);
 const fetchAddress = actionCreator.async<IFetchAddressPayload, IEnhancedAddressInfo, {}>(FETCH_ADDRESS);
 type IFetchAddressAction = TSAction<IFetchAddressPayload>;
 
+export interface IAddAddressPayload {
+  type: CoinType;
+  address: string;
+  description?: string;
+}
+const ADD_ADDRESS = "ADD_ADDRESS";
+const addAddress = actionCreator<IAddAddressPayload>(ADD_ADDRESS);
+
 const REFRESH_ADDRESSES = "REFRESH_ADDRESSES";
 const performRefreshAddresses = actionCreator(REFRESH_ADDRESSES);
 
 export const actions = {
   performFetchAddress,
   performRefreshAddresses,
+
+  addAddress,
 }
 
 export interface ICoinState {
@@ -40,12 +53,29 @@ const initialState: ICoinState = {
 
 export const coinReducer = (state = initialState, action: Action) => {
   if (isType(action, fetchAddress.done)) {
-    const newAddress = action.payload.result;
+    const newAddressBalance = action.payload.result;
+    const { address } = newAddressBalance;
+    const newAddress = {
+      ...state.addresses[address],
+      balanceInfo: newAddressBalance,
+    }
     return {
       ...state,
       addresses: {
         ...state.addresses,
-        [newAddress.address]: newAddress,
+        [newAddress.address]: newAddress, 
+      }
+    }
+  }
+  if (isType(action, addAddress)) {
+    const newAddress = action.payload;
+    return {
+      ...state,
+      addresses: {
+        ...state.addresses,
+        [newAddress.address]: {
+          ...newAddress,
+        }
       }
     }
   }
@@ -56,7 +86,6 @@ function* performFetchAddressWorker(action: IFetchAddressAction) {
   try {
     yield put(fetchAddress.started(action.payload));
     const result = yield call(API.balance, action.payload);
-    result.type = action.payload.type;
     yield put(fetchAddress.done({ params: action.payload, result }))
   } catch (error) {
     yield put(fetchAddress.failed({ params: action.payload, error }))
