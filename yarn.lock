@@ -60,7 +60,7 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
-"@types/expo@^23.0.0":
+"@types/expo@23.0.0":
   version "23.0.0"
   resolved "https://registry.yarnpkg.com/@types/expo/-/expo-23.0.0.tgz#29ed660b271af47a3efec6cb6a3846b644943882"
   dependencies:
@@ -82,13 +82,17 @@
   version "4.14.86"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.86.tgz#6788d3d75032c46322ff1c144c948cf8117c405b"
 
+"@types/react-intl@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/react-intl/-/react-intl-2.3.2.tgz#a57433871dedf2f12ba8eeca645e5ce5a37d102a"
+
 "@types/react-native@*", "@types/react-native@0.50.7":
   version "0.50.7"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.50.7.tgz#4c18bb14aa08f11934f539d2b8dcb2f1a6b88bd8"
   dependencies:
     "@types/react" "*"
 
-"@types/react-navigation@^1.0.25":
+"@types/react-navigation@1.0.25":
   version "1.0.25"
   resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.0.25.tgz#20bde2411dfb9c5731abcdecf3c915add902e074"
   dependencies:
@@ -2249,7 +2253,7 @@ formidable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
-formik@^0.10.5:
+formik@0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/formik/-/formik-0.10.5.tgz#6984d2f22e918c6d2264a3cb86b8582f7277faca"
   dependencies:
@@ -2736,7 +2740,31 @@ instapromise@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/instapromise/-/instapromise-2.0.7.tgz#85e66b31021194da11214c865127ef04ec30167a"
 
-invariant@^2.0.0, invariant@^2.2.2:
+intl-format-cache@^2.0.5:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/intl-format-cache/-/intl-format-cache-2.1.0.tgz#04a369fecbfad6da6005bae1f14333332dcf9316"
+
+intl-messageformat-parser@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.4.0.tgz#b43d45a97468cadbe44331d74bb1e8dea44fc075"
+
+intl-messageformat@^2.0.0, intl-messageformat@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/intl-messageformat/-/intl-messageformat-2.2.0.tgz#345bcd46de630b7683330c2e52177ff5eab484fc"
+  dependencies:
+    intl-messageformat-parser "1.4.0"
+
+intl-relativeformat@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/intl-relativeformat/-/intl-relativeformat-2.1.0.tgz#010f1105802251f40ac47d0e3e1a201348a255df"
+  dependencies:
+    intl-messageformat "^2.0.0"
+
+intl@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
+
+invariant@^2.0.0, invariant@^2.1.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -3937,9 +3965,9 @@ native-base-shoutem-theme@0.2.1:
     lodash "^4.10.1"
     prop-types "^15.5.10"
 
-native-base@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.3.3.tgz#de35234cf9cf8d24b5ce5e1720f8330dd5f3c96a"
+native-base@2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.3.5.tgz#3a9104a71ccc1b48e99d1939abdcab9d6cd71b45"
   dependencies:
     blueimp-md5 "^2.5.0"
     clamp "^1.0.1"
@@ -4606,6 +4634,15 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-intl@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.4.0.tgz#66c14dc9df9a73b2fbbfbd6021726e80a613eb15"
+  dependencies:
+    intl-format-cache "^2.0.5"
+    intl-messageformat "^2.1.0"
+    intl-relativeformat "^2.0.0"
+    invariant "^2.1.1"
+
 react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
@@ -4769,7 +4806,7 @@ react-native@0.50.4:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation@^1.0.0-beta.21:
+react-navigation@1.0.0-beta.21:
   version "1.0.0-beta.21"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.21.tgz#086c504ba84c966ef8db898baef6fa14ff45a06f"
   dependencies:
@@ -4905,7 +4942,7 @@ redux-logger@^2.7.4:
   dependencies:
     deep-diff "0.3.4"
 
-redux-persist@^5.4.0:
+redux-persist@5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.4.0.tgz#a1062313546a9d4ca6f9271464d18f736e8ca394"
 
@@ -5979,7 +6016,7 @@ walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-wallet-address-validator@^0.1.1:
+wallet-address-validator@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/wallet-address-validator/-/wallet-address-validator-0.1.1.tgz#e7023b702d6307e82e80a6cfaaaaa0a9c37df1b7"
   dependencies:

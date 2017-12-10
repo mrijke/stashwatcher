@@ -2,6 +2,7 @@ import * as React from "react";
 import { Container, Header, Left, Body, Content, Button, Title, Icon } from "native-base";
 
 import { AddAddressForm } from "../components/forms/AddAddressForm";
+import { styles } from "../common/styles";
 
 export class AddAddressScreen extends React.Component<any> {
   static navigationOptions = {

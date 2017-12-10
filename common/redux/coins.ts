@@ -6,6 +6,7 @@ import { IAddressInfo, IFetchAddressPayload, CoinType, API } from "../api/ApiCli
 import { Action } from "redux";
 import { call, put, takeLatest, all, fork, select, take, takeEvery } from "redux-saga/effects";
 import _values from "lodash-es/values";
+import _omit from "lodash-es/omit";
 
 import { IRootState } from "./index";
 
@@ -31,6 +32,9 @@ export interface IAddAddressPayload {
 const ADD_ADDRESS = "ADD_ADDRESS";
 const addAddress = actionCreator<IAddAddressPayload>(ADD_ADDRESS);
 
+const DELETE_ADDRESS = "DELETE_ADDRESS";
+const deleteAddress = actionCreator<string>(DELETE_ADDRESS);
+
 const REFRESH_ADDRESSES = "REFRESH_ADDRESSES";
 const performRefreshAddresses = actionCreator(REFRESH_ADDRESSES);
 
@@ -42,6 +46,7 @@ export const actions = {
   performRefreshAddresses,
 
   addAddress,
+  deleteAddress,
   resetLoading,
 }
 
@@ -96,6 +101,12 @@ export const coinReducer = (state = initialState, action: Action) => {
           ...newAddress,
         }
       }
+    }
+  }
+  if (isType(action, deleteAddress)) {
+    return {
+      ...state,
+      addresses: _omit(state.addresses, action.payload),
     }
   }
   return state;

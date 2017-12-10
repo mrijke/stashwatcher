@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
+import { withNavigation, InjectedProps } from "react-navigation";
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
 
 import { IEnhancedAddressInfo } from "../common/redux/coins";
@@ -17,10 +18,12 @@ const coinIconMapping: CoinIconMapping = {
   btc: "",
   ltc: "",
   doge: ""
-} 
+}
 
-export const CoinListItem = ({ address }: ICoinListItemProps) => (
-  <ListItem avatar onPress={() => console.log("Pressed on", address)}>
+const convertToEuro = (amount: number) => (amount / 100000000 * 12733).toLocaleString('nl-NL', { style: 'currency', currency: 'EUR' });
+
+const CoinListItemComponent = ({ address, navigation }: ICoinListItemProps & InjectedProps) => (
+  <ListItem avatar onPress={() => navigation.navigate("AddressDetail", { address })}>
     <Left>
       <Text style={styles.coin}>{coinIconMapping[address.type]}</Text>
     </Left>
@@ -29,15 +32,23 @@ export const CoinListItem = ({ address }: ICoinListItemProps) => (
       <Text note style={styles.addressText}>{address.address}</Text>
     </Body>
     <Right>
-      <Text>{address.balanceInfo ? <Text>{address.balanceInfo.balance / 100000000}</Text> : <Text note>N/A</Text>} {address.type.toUpperCase()}</Text>
-      <Text note>Another one</Text>
+      <Text><Text style={styles.amountText}>{address.balanceInfo ? address.balanceInfo.balance / 100000000 : <Text note>N/A</Text>}</Text> <Text style={styles.valutaText}>{address.type.toUpperCase()}</Text></Text>
+      <Text style={styles.amountText}>{convertToEuro(address.balanceInfo.balance)}</Text>
     </Right>
   </ListItem>
 )
 
+export const CoinListItem = withNavigation(CoinListItemComponent);
+
 const styles = StyleSheet.create({
   addressText: {
     fontSize: 10,
+  },
+  amountText: {
+    fontWeight: "bold",
+  },
+  valutaText: {
+    color: "#666"
   },
   coin: {
     fontFamily: "cryptocoins",
