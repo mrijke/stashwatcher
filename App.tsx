@@ -7,8 +7,8 @@ import { Container, Header, Body, Title, Left, Right, Button, Icon, Content } fr
 import * as Expo from "expo";
 
 import { store, persistor } from './common/redux/index';
-import { CoinListContainer } from './components/CoinListContainer';
-import { AddAddressForm } from './components/forms/AddAddressForm';
+import { AddAddressScreen } from './screens/AddAddressScreen';
+import { HomeScreen } from './screens/HomeScreen';
 
 export default class App extends React.Component<{}, { fontLoaded: boolean }> {
 
@@ -38,70 +38,11 @@ export default class App extends React.Component<{}, { fontLoaded: boolean }> {
   }
 }
 
-class HomeScreen extends React.Component<any> {
-  static navigationOptions = {
-    header: null,
-  }
-
-  public render() {
-    return (
-      <Container style={styles.container}>
-        <Header>
-          <Body>
-            <Title>CoinWatcher</Title>
-          </Body>
-          <Right>
-            <Button transparent>
-              <Icon name='add' onPress={() => this.props.navigation.navigate("AddAddress")} />
-            </Button>
-          </Right>
-        </Header>
-        <Content contentContainerStyle={styles.container}>
-          <CoinListContainer />
-        </Content>
-      </Container>
-    )
-  }
-}
-
-class AddAddressScreen extends React.Component<any> {
-  static navigationOptions = {
-    header: null
-  }
-  public render() {
-    return (
-      <Container style={styles.container}>
-        <Header>
-          <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="arrow-back" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Add new address</Title>
-          </Body>
-        </Header>
-        <Content>
-          <AddAddressForm navigation={this.props.navigation}/>
-        </Content>
-      </Container>
-    )
-  }
-}
-
 const RootNavigator = StackNavigator({
   Home: {
     screen: HomeScreen,
   },
   AddAddress: {
     screen: AddAddressScreen,
-  },
-});
-
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
   },
 });
