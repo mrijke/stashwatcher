@@ -34,24 +34,42 @@ const addAddress = actionCreator<IAddAddressPayload>(ADD_ADDRESS);
 const REFRESH_ADDRESSES = "REFRESH_ADDRESSES";
 const performRefreshAddresses = actionCreator(REFRESH_ADDRESSES);
 
+const RESET_LOADING = "RESET_LOADING";
+const resetLoading = actionCreator(RESET_LOADING);
+
 export const actions = {
   performFetchAddress,
   performRefreshAddresses,
 
   addAddress,
+  resetLoading,
 }
 
 export interface ICoinState {
   addresses: {
     [k: string]: IEnhancedAddressInfo;
-  }
+  },
+  loading: boolean;
 }
 
 const initialState: ICoinState = {
-  addresses: {}
+  addresses: {},
+  loading: false,
 }
 
 export const coinReducer = (state = initialState, action: Action) => {
+  if (isType(action, fetchAddress.started)) {
+    return {
+      ...state,
+      loading: true,
+    }
+  }
+  if (isType(action, resetLoading)) {
+    return {
+      ...state,
+      loading: false,
+    }
+  }
   if (isType(action, fetchAddress.done)) {
     const newAddressBalance = action.payload.result;
     const { address } = newAddressBalance;
@@ -61,6 +79,7 @@ export const coinReducer = (state = initialState, action: Action) => {
     }
     return {
       ...state,
+      loading: false,
       addresses: {
         ...state.addresses,
         [newAddress.address]: newAddress, 

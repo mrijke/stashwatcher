@@ -16,6 +16,7 @@ export default class App extends React.Component<{}, { fontLoaded: boolean }> {
     await Expo.Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      'cryptocoins': require('./assets/fonts/cryptocoins.ttf'),
     });
     this.setState({ fontLoaded: true });
   }
@@ -23,7 +24,7 @@ export default class App extends React.Component<{}, { fontLoaded: boolean }> {
   public constructor(props: {}) {
     super(props);
     this.state = { fontLoaded: false }
-    AsyncStorage.clear();
+    // AsyncStorage.clear();
   }
 
   render() {
@@ -55,7 +56,7 @@ class HomeScreen extends React.Component<any> {
             </Button>
           </Right>
         </Header>
-        <Content>
+        <Content contentContainerStyle={styles.container}>
           <CoinListContainer />
         </Content>
       </Container>
@@ -81,7 +82,7 @@ class AddAddressScreen extends React.Component<any> {
           </Body>
         </Header>
         <Content>
-          <AddAddressForm />
+          <AddAddressForm navigation={this.props.navigation}/>
         </Content>
       </Container>
     )
@@ -100,7 +101,7 @@ const RootNavigator = StackNavigator({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#fff',
   },
 });

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View } from 'native-base';
 import _values from "lodash-es/values";
@@ -12,6 +13,7 @@ import { RefreshControl } from "react-native";
 
 interface ICoinListStateProps {
   addresses: IEnhancedAddressInfo[];
+  loading: boolean;
 }
 
 interface ICoinListDispatchProps {
@@ -19,14 +21,23 @@ interface ICoinListDispatchProps {
   performRefreshAddresses: () => void;
 
   addAddress: (payload: IAddAddressPayload) => void;
+  resetLoading: () => void;
 }
 
 type CoinListProps = {} & ICoinListStateProps & ICoinListDispatchProps;
 
 class CoinListInnerContainer extends React.Component<CoinListProps> {
   public componentDidMount() {
-    this.props.addAddress({ type: "btc", description: "Main derp", address: "1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD" });
-    this.props.addAddress({ type: "btc", description: "Another one", address: "1MKqXyqntFxqQAUwdKmvp5CQ5CoqrnS8Xp" });
+    // this.props.addAddress({ type: "btc", description: "Main derp", address: "1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD" });
+    // this.props.addAddress({ type: "btc", description: "Another one", address: "1MKqXyqntFxqQAUwdKmvp5CQ5CoqrnS8Xp" });
+    this.props.resetLoading();
+  }
+
+  public componentWillReceiveProps(nextProps: CoinListProps) {
+    if (nextProps.addresses.length !== this.props.addresses.length) {
+      // if the number of addresses changes, refresh them
+      this.props.performRefreshAddresses();
+    }
   }
 
   private onRefresh = () => {
@@ -35,11 +46,10 @@ class CoinListInnerContainer extends React.Component<CoinListProps> {
   }
 
   public render() {
-    console.log(this.props.addresses)
     return (
       <List refreshControl={
         <RefreshControl
-          refreshing={false}
+          refreshing={this.props.loading}
           onRefresh={this.onRefresh}
         />
       }
@@ -52,6 +62,7 @@ class CoinListInnerContainer extends React.Component<CoinListProps> {
 
 const mapStateToProps = (state: IRootState): ICoinListStateProps => ({
   addresses: _values(state.coins.addresses),
+  loading: state.coins.loading,
 });
 
 const mapDispatchToProps: ICoinListDispatchProps = {
