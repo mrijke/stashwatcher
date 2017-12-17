@@ -14,7 +14,7 @@ export class HomeScreen extends React.Component<any> {
       <Container style={styles.container}>
         <Header>
           <Body>
-            <Title>CoinWatcher</Title>
+            <Title>StashWatcher</Title>
           </Body>
           <Right>
             <Button transparent>
