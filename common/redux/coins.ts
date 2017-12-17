@@ -14,14 +14,14 @@ const actionCreator = actionCreatorFactory("COINS");
 
 export interface IEnhancedAddressInfo {
   type: CoinType;
-  description: string;
   address: string;
-  balanceInfo: IAddressInfo;
+  description?: string;
+  balanceInfo?: IAddressInfo;
 }
 
 const FETCH_ADDRESS = "FETCH_ADDRESS";
 const performFetchAddress = actionCreator<IFetchAddressPayload>(FETCH_ADDRESS);
-const fetchAddress = actionCreator.async<IFetchAddressPayload, IEnhancedAddressInfo, {}>(FETCH_ADDRESS);
+const fetchAddress = actionCreator.async<IFetchAddressPayload, IAddressInfo, {}>(FETCH_ADDRESS);
 type IFetchAddressAction = TSAction<IFetchAddressPayload>;
 
 export interface IAddAddressPayload {
@@ -62,7 +62,7 @@ const initialState: ICoinState = {
   loading: false,
 }
 
-export const coinReducer = (state = initialState, action: Action) => {
+export const coinReducer = (state = initialState, action: Action): ICoinState => {
   if (isType(action, fetchAddress.started)) {
     return {
       ...state,
@@ -78,7 +78,7 @@ export const coinReducer = (state = initialState, action: Action) => {
   if (isType(action, fetchAddress.done)) {
     const newAddressBalance = action.payload.result;
     const { address } = newAddressBalance;
-    const newAddress = {
+    const newAddress: IEnhancedAddressInfo = {
       ...state.addresses[address],
       balanceInfo: newAddressBalance,
     }

@@ -14,6 +14,7 @@ import { HomeScreen } from './screens/HomeScreen';
 import { AddAddressScreen } from './screens/AddAddressScreen';
 import { AddressDetailScreen } from './screens/AddressDetailScreen';
 import { styles } from './common/styles';
+import { API } from './common/api/ApiClient';
 
 const Loading = <ActivityIndicator style={styles.loading} color="#0000ff" size="large" />;
 

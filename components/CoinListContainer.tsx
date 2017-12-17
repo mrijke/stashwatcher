@@ -6,7 +6,8 @@ import _values from "lodash-es/values";
 
 
 import { IRootState } from "../common/redux/index";
-import { IEnhancedAddressInfo, actions, IAddAddressPayload } from "../common/redux/coins";
+import { IEnhancedAddressInfo, actions as coinActions, IAddAddressPayload } from "../common/redux/coins";
+import { actions as valutaActions } from "../common/redux/valuta";
 import { IFetchAddressPayload } from "../common/api/ApiClient";
 import { CoinListItem } from "./CoinListItem";
 import { RefreshControl } from "react-native";
@@ -17,10 +18,9 @@ interface ICoinListStateProps {
 }
 
 interface ICoinListDispatchProps {
-  performFetchAddress: (payload: IFetchAddressPayload) => void;
   performRefreshAddresses: () => void;
+  performFetchValutaRates: () => void;
 
-  addAddress: (payload: IAddAddressPayload) => void;
   resetLoading: () => void;
 }
 
@@ -28,9 +28,9 @@ type CoinListProps = {} & ICoinListStateProps & ICoinListDispatchProps;
 
 class CoinListInnerContainer extends React.Component<CoinListProps> {
   public componentDidMount() {
-    // this.props.addAddress({ type: "btc", description: "Main derp", address: "1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD" });
-    // this.props.addAddress({ type: "btc", description: "Another one", address: "1MKqXyqntFxqQAUwdKmvp5CQ5CoqrnS8Xp" });
     this.props.resetLoading();
+    this.props.performRefreshAddresses();
+    this.props.performFetchValutaRates();
   }
 
   public componentWillReceiveProps(nextProps: CoinListProps) {
@@ -41,8 +41,8 @@ class CoinListInnerContainer extends React.Component<CoinListProps> {
   }
 
   private onRefresh = () => {
-    console.log("Refreshing!!!");
     this.props.performRefreshAddresses();
+    this.props.performFetchValutaRates();
   }
 
   public render() {
@@ -66,7 +66,9 @@ const mapStateToProps = (state: IRootState): ICoinListStateProps => ({
 });
 
 const mapDispatchToProps: ICoinListDispatchProps = {
-  ...actions
+  performRefreshAddresses: coinActions.performRefreshAddresses,
+  resetLoading: coinActions.resetLoading,
+  performFetchValutaRates: valutaActions.performFetchValutaRates,
 }
 
 export const CoinListContainer = connect(mapStateToProps, mapDispatchToProps)(CoinListInnerContainer);
