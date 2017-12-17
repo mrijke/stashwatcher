@@ -131,10 +131,9 @@ function* performRefreshAddresesWatcher() {
     yield take(performRefreshAddresses);
     const addresses = yield select((state: IRootState) => state.coins.addresses);
     yield all(
-      _values(addresses).map((address: IEnhancedAddressInfo) => call(performFetchAddressWorker, {
-        payload: { type: address.type, address: address.address }
-      }))
-    );
+      _values(addresses).map((address: IEnhancedAddressInfo) =>
+        call(performFetchAddressWorker, performFetchAddress({type: address.type, address: address.address }))
+    ));
   }
 }
 
