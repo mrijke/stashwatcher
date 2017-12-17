@@ -9,31 +9,31 @@ import { IRootState } from "../common/redux/index";
 import { IEnhancedAddressInfo, actions as coinActions, IAddAddressPayload } from "../common/redux/coins";
 import { actions as valutaActions } from "../common/redux/valuta";
 import { IFetchAddressPayload } from "../common/api/ApiClient";
-import { CoinListItem } from "./CoinListItem";
+import { AddressListItem } from "./AddressListItem";
 import { RefreshControl } from "react-native";
 
-interface ICoinListStateProps {
+interface IAddressListStateProps {
   addresses: IEnhancedAddressInfo[];
   loading: boolean;
 }
 
-interface ICoinListDispatchProps {
+interface IAddressListDispatchProps {
   performRefreshAddresses: () => void;
   performFetchValutaRates: () => void;
 
   resetLoading: () => void;
 }
 
-type CoinListProps = {} & ICoinListStateProps & ICoinListDispatchProps;
+type AddressListProps = {} & IAddressListStateProps & IAddressListDispatchProps;
 
-class CoinListInnerContainer extends React.Component<CoinListProps> {
+class AddressListInnerContainer extends React.Component<AddressListProps> {
   public componentDidMount() {
     this.props.resetLoading();
     this.props.performRefreshAddresses();
     this.props.performFetchValutaRates();
   }
 
-  public componentWillReceiveProps(nextProps: CoinListProps) {
+  public componentWillReceiveProps(nextProps: AddressListProps) {
     if (nextProps.addresses.length !== this.props.addresses.length) {
       // if the number of addresses changes, refresh them
       this.props.performRefreshAddresses();
@@ -46,6 +46,21 @@ class CoinListInnerContainer extends React.Component<CoinListProps> {
   }
 
   public render() {
+    if (this.props.addresses.length === 0) {
+      return (
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <Text style={{
+            textAlign: 'center',
+            color: '#333333',
+          }}>No addresses added yet.</Text>
+          <Text>Tap on the "+" icon to add one!</Text>
+        </View>);
+    }
     return (
       <List refreshControl={
         <RefreshControl
@@ -54,21 +69,21 @@ class CoinListInnerContainer extends React.Component<CoinListProps> {
         />
       }
         dataArray={this.props.addresses}
-        renderRow={(item) => <CoinListItem address={item} />}
+        renderRow={(item) => <AddressListItem address={item} />}
       />
     )
   }
 }
 
-const mapStateToProps = (state: IRootState): ICoinListStateProps => ({
+const mapStateToProps = (state: IRootState): IAddressListStateProps => ({
   addresses: _values(state.coins.addresses),
   loading: state.coins.loading,
 });
 
-const mapDispatchToProps: ICoinListDispatchProps = {
+const mapDispatchToProps: IAddressListDispatchProps = {
   performRefreshAddresses: coinActions.performRefreshAddresses,
   resetLoading: coinActions.resetLoading,
   performFetchValutaRates: valutaActions.performFetchValutaRates,
 }
 
-export const CoinListContainer = connect(mapStateToProps, mapDispatchToProps)(CoinListInnerContainer);
+export const AddressListContainer = connect(mapStateToProps, mapDispatchToProps)(AddressListInnerContainer);

@@ -32,7 +32,6 @@ export default class App extends React.Component<{}, { fontLoaded: boolean }> {
   public constructor(props: {}) {
     super(props);
     this.state = { fontLoaded: false }
-    // AsyncStorage.clear();
   }
 
   render() {

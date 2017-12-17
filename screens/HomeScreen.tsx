@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Header, Body, Title, Right, Button, Icon, Content } from "native-base";
 import { styles } from "../common/styles";
-import { CoinListContainer } from "../components/CoinListContainer";
+import { AddressListContainer } from "../components/AddressListContainer";
 
 
 export class HomeScreen extends React.Component<any> {
@@ -23,7 +23,7 @@ export class HomeScreen extends React.Component<any> {
           </Right>
         </Header>
         <Content contentContainerStyle={styles.container}>
-          <CoinListContainer />
+          <AddressListContainer />
         </Content>
       </Container>
     )

@@ -9,11 +9,11 @@ import { IValutaState } from "../common/redux/valuta";
 import { IRootState } from "../common/redux/index";
 import { connect } from "react-redux";
 
-interface ICoinListItemProps {
+interface IAddressListItemProps {
   address: IEnhancedAddressInfo
 }
 
-interface ICoinListStateProps {
+interface IAddressListStateProps {
   valuta: IValutaState;
 }
 
@@ -28,7 +28,7 @@ const coinIconMapping: CoinIconMapping = {
   eth: "",
 }
 
-class CoinListItemComponent extends React.Component<ICoinListStateProps & ICoinListItemProps & InjectedProps> {
+class AddressListItemComponent extends React.Component<IAddressListStateProps & IAddressListItemProps & InjectedProps> {
 
   private convertToEuro() {
     if (this.props.address.balanceInfo) {
@@ -61,11 +61,11 @@ class CoinListItemComponent extends React.Component<ICoinListStateProps & ICoinL
   }
 }
 
-const mapStateToProps = (state: IRootState): ICoinListStateProps => ({
+const mapStateToProps = (state: IRootState): IAddressListStateProps => ({
   valuta: state.valuta,
 })
 
-export const CoinListItem = withNavigation(connect(mapStateToProps)(CoinListItemComponent));
+export const AddressListItem = withNavigation(connect(mapStateToProps)(AddressListItemComponent));
 
 const styles = StyleSheet.create({
   addressText: {
