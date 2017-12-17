@@ -41,13 +41,21 @@ const performRefreshAddresses = actionCreator(REFRESH_ADDRESSES);
 const RESET_LOADING = "RESET_LOADING";
 const resetLoading = actionCreator(RESET_LOADING);
 
+const ADDRESS_SCANNED = "ADDRESS_SCANNED";
+const addressScanned = actionCreator<string>(ADDRESS_SCANNED);
+
+const RESET_ADDRESS_SCANNED = "RESET_ADDRESS_SCANNED";
+const resetAddressScanned = actionCreator(RESET_ADDRESS_SCANNED);
+
 export const actions = {
   performFetchAddress,
   performRefreshAddresses,
 
   addAddress,
   deleteAddress,
-  resetLoading
+  resetLoading,
+  addressScanned,
+  resetAddressScanned
 };
 
 export interface ICoinState {
@@ -55,11 +63,13 @@ export interface ICoinState {
     [k: string]: IEnhancedAddressInfo;
   };
   loading: boolean;
+  scannedAddress: string;
 }
 
 const initialState: ICoinState = {
   addresses: {},
-  loading: false
+  loading: false,
+  scannedAddress: ""
 };
 
 export const coinReducer = (state = initialState, action: Action): ICoinState => {
@@ -107,6 +117,18 @@ export const coinReducer = (state = initialState, action: Action): ICoinState =>
     return {
       ...state,
       addresses: _omit(state.addresses, action.payload)
+    };
+  }
+  if (isType(action, addressScanned)) {
+    return {
+      ...state,
+      scannedAddress: action.payload
+    };
+  }
+  if (isType(action, resetAddressScanned)) {
+    return {
+      ...state,
+      scannedAddress: ""
     };
   }
   return state;

@@ -12,6 +12,7 @@ import { store, persistor } from "./common/redux/index";
 import { HomeScreen } from "./screens/HomeScreen";
 import { AddAddressScreen } from "./screens/AddAddressScreen";
 import { AddressDetailScreen } from "./screens/AddressDetailScreen";
+import { QRCodeCameraScreen } from "./screens/QRCodeCameraScreen";
 import { styles } from "./common/styles";
 
 const Loading = <ActivityIndicator style={styles.loading} color="#0000ff" size="large" />;
@@ -25,6 +26,9 @@ const RootNavigator = StackNavigator({
   },
   AddressDetail: {
     screen: AddressDetailScreen
+  },
+  QRCodeScan: {
+    screen: QRCodeCameraScreen
   }
 });
 

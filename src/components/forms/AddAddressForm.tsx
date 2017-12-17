@@ -5,6 +5,7 @@ import { withFormik, InjectedFormikProps } from "formik";
 
 import { IAddAddressPayload, actions } from "../../common/redux/coins";
 import { connect } from "react-redux";
+import { IRootState } from "../../common/redux/index";
 
 const styles = StyleSheet.create({
   submitButton: {
@@ -15,8 +16,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const enhancer = withFormik<IAddressFormOwnProps & IAddAddressFormDispatchProps, IAddAddressPayload>({
-  mapPropsToValues: () => ({
+const enhancer = withFormik<IAddressFormOwnProps & IAddAddressFormStateProps & IAddAddressFormDispatchProps, IAddAddressPayload>({
+  mapPropsToValues: (props) => ({
     type: "btc",
     address: ""
   }),
@@ -35,13 +36,30 @@ interface IAddressFormOwnProps {
   navigation: any;
 }
 
-interface IAddAddressFormDispatchProps {
-  addAddress: (values: IAddAddressPayload) => void;
+interface IAddAddressFormStateProps {
+  scannedAddress: string;
 }
 
-type AddAddressFormProps = IAddressFormOwnProps & IAddAddressFormDispatchProps & InjectedFormikProps<{}, IAddAddressPayload>;
+interface IAddAddressFormDispatchProps {
+  addAddress: (values: IAddAddressPayload) => void;
+  resetAddressScanned: () => void;
+}
+
+type AddAddressFormProps = IAddressFormOwnProps & IAddAddressFormStateProps & IAddAddressFormDispatchProps & InjectedFormikProps<{}, IAddAddressPayload>;
 
 class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
+
+  public componentWillReceiveProps(nextProps: AddAddressFormProps) {
+    console.log(this.props.scannedAddress, nextProps.scannedAddress);
+    if (nextProps.scannedAddress && nextProps.scannedAddress !== this.props.scannedAddress) {
+      this.props.setFieldValue("address", nextProps.scannedAddress);
+    }
+  }
+
+  public componentWillUnmount() {
+    this.props.resetAddressScanned();
+  }
+
   public render() {
     console.log(this.props.errors);
     return (
@@ -58,7 +76,7 @@ class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
         </Picker>
         <FormItem stackedLabel>
           <Label>Address</Label>
-          <Input onChangeText={text => this.props.setFieldValue("address", text)} />
+          <Input onChangeText={text => this.props.setFieldValue("address", text)} value={this.props.values.address} />
           {this.props.errors.address && (<Text style={styles.errorText}>{this.props.errors.address}</Text>)}
         </FormItem>
         <FormItem stackedLabel>
@@ -71,8 +89,13 @@ class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
   }
 }
 
+const mapStateToProps = (state: IRootState) => ({
+  scannedAddress: state.coins.scannedAddress
+});
+
 const mapDispatchToProps: IAddAddressFormDispatchProps = {
-  addAddress: actions.addAddress
+  addAddress: actions.addAddress,
+  resetAddressScanned: actions.resetAddressScanned
 };
 
-export const AddAddressForm = connect(undefined, mapDispatchToProps)(enhancer(AddAddressInnerForm));
+export const AddAddressForm = connect(mapStateToProps, mapDispatchToProps)(enhancer(AddAddressInnerForm));
