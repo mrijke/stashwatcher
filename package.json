@@ -2,39 +2,50 @@
   "name": "StashWatcher",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "@types/react": "16.0.25",
-    "@types/react-intl": "2.3.2",
-    "@types/react-native": "0.50.7",
-    "@types/react-test-renderer": "16.0.0",
-    "jest-expo-ts": "22.0.1",
-    "react-native-scripts-ts": "1.7.0",
-    "react-native-typescript-transformer": "1.1.4",
-    "react-test-renderer": "16.2.0",
-    "tslib": "1.7.1",
-    "typescript": "2.5.2"
-  },
-  "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts-ts start",
-    "eject": "react-native-scripts-ts eject",
-    "android": "react-native-scripts-ts android",
-    "ios": "react-native-scripts-ts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest --coverage",
+    "tsc": "tsc",
+    "clean": "rimraf lib",
+    "build": "npm run clean && npm run tsc --",
+    "lint": "tslint -p .",
+    "watch": "npm run build -- -w",
+    "start:ios": "npm run build && concurrently -r 'npm run watch' 'react-native run-ios'",
+    "start:android": "npm run build && concurrently -r 'npm run watch' 'react-native run-android'"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   },
   "jest": {
-    "preset": "jest-expo-ts"
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(js)$": "<rootDir>/node_modules/babel-jest",
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testPathIgnorePatterns": [
+      "\\.snap$",
+      "<rootDir>/node_modules/",
+      "<rootDir>/artifacts/"
+    ],
+    "cacheDirectory": ".jest/cache"
   },
   "dependencies": {
-    "@types/expo": "23.0.0",
     "@types/lodash-es": "4.17.0",
     "@types/react-navigation": "1.0.25",
     "@types/react-redux": "5.0.14",
-    "expo": "23.0.0",
     "formik": "0.10.5",
     "intl": "1.2.5",
     "lodash-es": "4.17.4",
     "native-base": "2.3.5",
+    "prop-types": "15.6.0",
     "react": "16.0.0",
     "react-intl": "2.4.0",
     "react-native": "0.50.4",
@@ -45,5 +56,18 @@
     "redux-saga": "0.16.0",
     "typescript-fsa": "2.5.0",
     "wallet-address-validator": "0.1.1"
+  },
+  "devDependencies": {
+    "@types/prop-types": "15.5.2",
+    "@types/react": "16.0.25",
+    "@types/react-intl": "2.3.2",
+    "@types/react-native": "0.50.7",
+    "@types/react-test-renderer": "16.0.0",
+    "concurrently": "3.5.1",
+    "react-test-renderer": "16.2.0",
+    "rimraf": "2.6.2",
+    "tslib": "1.7.1",
+    "tslint": "5.8.0",
+    "typescript": "2.5.2"
   }
 }
