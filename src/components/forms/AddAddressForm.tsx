@@ -1,6 +1,14 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import { Form, Button, Input, Item as FormItem, Picker, Label, Text } from "native-base";
+import {
+  Form,
+  Button,
+  Input,
+  Item as FormItem,
+  Picker,
+  Label,
+  Text,
+} from "native-base";
 import { withFormik, InjectedFormikProps } from "formik";
 
 import { IAddAddressPayload, actions } from "../../common/redux/coins";
@@ -9,17 +17,22 @@ import { IRootState } from "../../common/redux/index";
 
 const styles = StyleSheet.create({
   submitButton: {
-    marginTop: 25
+    marginTop: 25,
   },
   errorText: {
-    color: "red"
-  }
+    color: "red",
+  },
 });
 
-const enhancer = withFormik<IAddressFormOwnProps & IAddAddressFormStateProps & IAddAddressFormDispatchProps, IAddAddressPayload>({
-  mapPropsToValues: (props) => ({
+const enhancer = withFormik<
+  IAddressFormOwnProps &
+    IAddAddressFormStateProps &
+    IAddAddressFormDispatchProps,
+  IAddAddressPayload
+>({
+  mapPropsToValues: props => ({
     type: "btc",
-    address: ""
+    address: "",
   }),
   handleSubmit: (values, { setFieldError, resetForm, props }) => {
     resetForm();
@@ -29,7 +42,7 @@ const enhancer = withFormik<IAddressFormOwnProps & IAddAddressFormStateProps & I
     }
     props.addAddress(values);
     props.navigation.goBack();
-  }
+  },
 });
 
 interface IAddressFormOwnProps {
@@ -45,13 +58,18 @@ interface IAddAddressFormDispatchProps {
   resetAddressScanned: () => void;
 }
 
-type AddAddressFormProps = IAddressFormOwnProps & IAddAddressFormStateProps & IAddAddressFormDispatchProps & InjectedFormikProps<{}, IAddAddressPayload>;
+type AddAddressFormProps = IAddressFormOwnProps &
+  IAddAddressFormStateProps &
+  IAddAddressFormDispatchProps &
+  InjectedFormikProps<{}, IAddAddressPayload>;
 
 class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
-
   public componentWillReceiveProps(nextProps: AddAddressFormProps) {
     console.log(this.props.scannedAddress, nextProps.scannedAddress);
-    if (nextProps.scannedAddress && nextProps.scannedAddress !== this.props.scannedAddress) {
+    if (
+      nextProps.scannedAddress &&
+      nextProps.scannedAddress !== this.props.scannedAddress
+    ) {
       this.props.setFieldValue("address", nextProps.scannedAddress);
     }
   }
@@ -76,26 +94,43 @@ class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
         </Picker>
         <FormItem stackedLabel>
           <Label>Address</Label>
-          <Input onChangeText={text => this.props.setFieldValue("address", text)} value={this.props.values.address} />
-          {this.props.errors.address && (<Text style={styles.errorText}>{this.props.errors.address}</Text>)}
+          <Input
+            onChangeText={text => this.props.setFieldValue("address", text)}
+            value={this.props.values.address}
+          />
+          {this.props.errors.address && (
+            <Text style={styles.errorText}>{this.props.errors.address}</Text>
+          )}
         </FormItem>
         <FormItem stackedLabel>
           <Label>Description</Label>
-          <Input onChangeText={text => this.props.setFieldValue("description", text)} />
+          <Input
+            onChangeText={text => this.props.setFieldValue("description", text)}
+          />
         </FormItem>
-        <Button style={styles.submitButton} primary block success onPress={this.props.submitForm}><Text>Add</Text></Button>
+        <Button
+          style={styles.submitButton}
+          primary
+          block
+          success
+          onPress={this.props.submitForm}
+        >
+          <Text>Add</Text>
+        </Button>
       </Form>
     );
   }
 }
 
 const mapStateToProps = (state: IRootState) => ({
-  scannedAddress: state.coins.scannedAddress
+  scannedAddress: state.coins.scannedAddress,
 });
 
 const mapDispatchToProps: IAddAddressFormDispatchProps = {
   addAddress: actions.addAddress,
-  resetAddressScanned: actions.resetAddressScanned
+  resetAddressScanned: actions.resetAddressScanned,
 };
 
-export const AddAddressForm = connect(mapStateToProps, mapDispatchToProps)(enhancer(AddAddressInnerForm));
+export const AddAddressForm = connect(mapStateToProps, mapDispatchToProps)(
+  enhancer(AddAddressInnerForm)
+);

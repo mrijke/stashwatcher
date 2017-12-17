@@ -1,10 +1,23 @@
 import actionCreatorFactory, {
   isType,
-  Action as TSAction
+  Action as TSAction,
 } from "typescript-fsa";
-import { IAddressInfo, IFetchAddressPayload, CoinType, API } from "../api/ApiClient";
+import {
+  IAddressInfo,
+  IFetchAddressPayload,
+  CoinType,
+  API,
+} from "../api/ApiClient";
 import { Action } from "redux";
-import { call, put, all, fork, select, take, takeEvery } from "redux-saga/effects";
+import {
+  call,
+  put,
+  all,
+  fork,
+  select,
+  take,
+  takeEvery,
+} from "redux-saga/effects";
 import _values from "lodash-es/values";
 import _omit from "lodash-es/omit";
 
@@ -21,7 +34,11 @@ export interface IEnhancedAddressInfo {
 
 const FETCH_ADDRESS = "FETCH_ADDRESS";
 const performFetchAddress = actionCreator<IFetchAddressPayload>(FETCH_ADDRESS);
-const fetchAddress = actionCreator.async<IFetchAddressPayload, IAddressInfo, {}>(FETCH_ADDRESS);
+const fetchAddress = actionCreator.async<
+  IFetchAddressPayload,
+  IAddressInfo,
+  {}
+>(FETCH_ADDRESS);
 type IFetchAddressAction = TSAction<IFetchAddressPayload>;
 
 export interface IAddAddressPayload {
@@ -55,7 +72,7 @@ export const actions = {
   deleteAddress,
   resetLoading,
   addressScanned,
-  resetAddressScanned
+  resetAddressScanned,
 };
 
 export interface ICoinState {
@@ -69,20 +86,23 @@ export interface ICoinState {
 const initialState: ICoinState = {
   addresses: {},
   loading: false,
-  scannedAddress: ""
+  scannedAddress: "",
 };
 
-export const coinReducer = (state = initialState, action: Action): ICoinState => {
+export const coinReducer = (
+  state = initialState,
+  action: Action
+): ICoinState => {
   if (isType(action, fetchAddress.started)) {
     return {
       ...state,
-      loading: true
+      loading: true,
     };
   }
   if (isType(action, resetLoading)) {
     return {
       ...state,
-      loading: false
+      loading: false,
     };
   }
   if (isType(action, fetchAddress.done)) {
@@ -90,15 +110,15 @@ export const coinReducer = (state = initialState, action: Action): ICoinState =>
     const { address } = newAddressBalance;
     const newAddress: IEnhancedAddressInfo = {
       ...state.addresses[address],
-      balanceInfo: newAddressBalance
+      balanceInfo: newAddressBalance,
     };
     return {
       ...state,
       loading: false,
       addresses: {
         ...state.addresses,
-        [newAddress.address]: newAddress
-      }
+        [newAddress.address]: newAddress,
+      },
     };
   }
   if (isType(action, addAddress)) {
@@ -108,27 +128,27 @@ export const coinReducer = (state = initialState, action: Action): ICoinState =>
       addresses: {
         ...state.addresses,
         [newAddress.address]: {
-          ...newAddress
-        }
-      }
+          ...newAddress,
+        },
+      },
     };
   }
   if (isType(action, deleteAddress)) {
     return {
       ...state,
-      addresses: _omit(state.addresses, action.payload)
+      addresses: _omit(state.addresses, action.payload),
     };
   }
   if (isType(action, addressScanned)) {
     return {
       ...state,
-      scannedAddress: action.payload
+      scannedAddress: action.payload,
     };
   }
   if (isType(action, resetAddressScanned)) {
     return {
       ...state,
-      scannedAddress: ""
+      scannedAddress: "",
     };
   }
   return state;
@@ -151,17 +171,23 @@ function* performFetchAddressWatcher() {
 function* performRefreshAddresesWatcher() {
   while (true) {
     yield take(performRefreshAddresses);
-    const addresses = yield select((state: IRootState) => state.coins.addresses);
+    const addresses = yield select(
+      (state: IRootState) => state.coins.addresses
+    );
     yield all(
       _values(addresses).map((address: IEnhancedAddressInfo) =>
-        call(performFetchAddressWorker, performFetchAddress({type: address.type, address: address.address }))
-    ));
+        call(
+          performFetchAddressWorker,
+          performFetchAddress({ type: address.type, address: address.address })
+        )
+      )
+    );
   }
 }
 
 export function* rootSaga() {
   yield all([
     fork(performFetchAddressWatcher),
-    fork(performRefreshAddresesWatcher)
+    fork(performRefreshAddresesWatcher),
   ]);
 }

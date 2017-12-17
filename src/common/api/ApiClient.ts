@@ -1,7 +1,10 @@
 const responseJSON = (res: Response) => res.json();
 
 export const requests = {
-  get: (url: string) => fetch(url).then(responseJSON).catch(error => console.log(error))
+  get: (url: string) =>
+    fetch(url)
+      .then(responseJSON)
+      .catch(error => console.log(error)),
 };
 
 export type CoinType = "btc" | "ltc" | "doge" | "eth";
@@ -24,7 +27,10 @@ export interface IAddressInfo {
 }
 
 export const API = {
-  balance: ({type, address}: IFetchAddressPayload): Promise<IAddressInfo> => requests.get(`https://api.blockcypher.com/v1/${type}/main/addrs/${address}/balance`),
+  balance: ({ type, address }: IFetchAddressPayload): Promise<IAddressInfo> =>
+    requests.get(
+      `https://api.blockcypher.com/v1/${type}/main/addrs/${address}/balance`
+    ),
   valuta: (type: CoinType): Promise<number> => {
     let objectName: string;
     let url = "https://api.kraken.com/0/public/Ticker?pair=";
@@ -47,5 +53,5 @@ export const API = {
     return requests.get(url).then(res => {
       return res.result[objectName].c[0];
     });
-  }
+  },
 };

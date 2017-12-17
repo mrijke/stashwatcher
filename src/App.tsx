@@ -15,21 +15,23 @@ import { AddressDetailScreen } from "./screens/AddressDetailScreen";
 import { QRCodeCameraScreen } from "./screens/QRCodeCameraScreen";
 import { styles } from "./common/styles";
 
-const Loading = <ActivityIndicator style={styles.loading} color="#0000ff" size="large" />;
+const Loading = (
+  <ActivityIndicator style={styles.loading} color="#0000ff" size="large" />
+);
 
 const RootNavigator = StackNavigator({
   Home: {
-    screen: HomeScreen
+    screen: HomeScreen,
   },
   AddAddress: {
-    screen: AddAddressScreen
+    screen: AddAddressScreen,
   },
   AddressDetail: {
-    screen: AddressDetailScreen
+    screen: AddressDetailScreen,
   },
   QRCodeScan: {
-    screen: QRCodeCameraScreen
-  }
+    screen: QRCodeCameraScreen,
+  },
 });
 
 export default class App extends React.Component {

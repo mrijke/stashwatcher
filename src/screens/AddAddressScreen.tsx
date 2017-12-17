@@ -1,6 +1,16 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import { Container, Header, Left, Body, Content, Button, Title, Icon, Text } from "native-base";
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Content,
+  Button,
+  Title,
+  Icon,
+  Text,
+} from "native-base";
 
 import { AddAddressForm } from "../components/forms/AddAddressForm";
 import { styles } from "../common/styles";
@@ -8,7 +18,7 @@ import { styles } from "../common/styles";
 export class AddAddressScreen extends React.Component<any> {
   static navigationOptions = {
     // tslint:disable-next-line:no-null-keyword
-    header: null
+    header: null,
   };
   public render() {
     return (
@@ -25,7 +35,12 @@ export class AddAddressScreen extends React.Component<any> {
         </Header>
         <Content>
           <AddAddressForm navigation={this.props.navigation} />
-          <Button full onPress={() => this.props.navigation.navigate("QRCodeScan")}><Text>Scan address from QR code</Text></Button>
+          <Button
+            full
+            onPress={() => this.props.navigation.navigate("QRCodeScan")}
+          >
+            <Text>Scan address from QR code</Text>
+          </Button>
         </Content>
       </Container>
     );

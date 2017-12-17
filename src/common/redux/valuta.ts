@@ -3,33 +3,36 @@ import { actionCreatorFactory, isType } from "typescript-fsa";
 import { Action } from "redux";
 import { takeEvery, all, call, put, fork } from "redux-saga/effects";
 
-export type IValutaState = {
-  [k in CoinType]?: number;
-};
+export type IValutaState = { [k in CoinType]?: number };
 
 const initialState: IValutaState = {
   btc: 0,
   ltc: 0,
   eth: 0,
-  doge: 0
+  doge: 0,
 };
 
 const actionCreator = actionCreatorFactory("VALUTA");
 
 const FETCH_VALUTA_RATE = "FETCH_VALUTA_RATE";
 const performFetchValutaRates = actionCreator(FETCH_VALUTA_RATE);
-const fetchValutaRates = actionCreator.async<{}, IValutaState, {}>(FETCH_VALUTA_RATE);
+const fetchValutaRates = actionCreator.async<{}, IValutaState, {}>(
+  FETCH_VALUTA_RATE
+);
 
 export const actions = {
-  performFetchValutaRates
+  performFetchValutaRates,
 };
 
-export const valutaReducer = (state = initialState, action: Action): IValutaState => {
+export const valutaReducer = (
+  state = initialState,
+  action: Action
+): IValutaState => {
   if (isType(action, fetchValutaRates.done)) {
     const result = action.payload.result;
     return {
       ...state,
-      ...result
+      ...result,
     };
   }
   return state;
@@ -41,13 +44,20 @@ function* performFetchValutaRatesWorker() {
     const [btc, ltc, eth] = yield all([
       call(API.valuta, "btc"),
       call(API.valuta, "ltc"),
-      call(API.valuta, "eth")
+      call(API.valuta, "eth"),
     ]);
-    yield put(fetchValutaRates.done({ params: {}, result: {
-      btc, ltc, eth
-    }}));
+    yield put(
+      fetchValutaRates.done({
+        params: {},
+        result: {
+          btc,
+          ltc,
+          eth,
+        },
+      })
+    );
   } catch (error) {
-    yield put(fetchValutaRates.failed({ params: {},  error}));
+    yield put(fetchValutaRates.failed({ params: {}, error }));
   }
 }
 
@@ -56,7 +66,5 @@ function* performFetchValutaRatesWatcher() {
 }
 
 export function* rootSaga() {
-  yield all([
-    fork(performFetchValutaRatesWatcher)
-  ]);
+  yield all([fork(performFetchValutaRatesWatcher)]);
 }

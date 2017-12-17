@@ -72,12 +72,6 @@
     "no-require-imports": false,
     "no-trailing-whitespace": true,
     "object-literal-sort-keys": false,
-    "trailing-comma": [
-      true, {
-        "multiline": "never",
-        "singleline": "never"
-      }
-    ],
     "align": [true],
     "class-name": true,
     "comment-format": [
@@ -100,10 +94,6 @@
       true,
       "double",
       "avoid-escape"
-    ],
-    "semicolon": [
-      true,
-      "always"
     ],
     "variable-name": [
       true,

@@ -1,12 +1,21 @@
 import * as React from "react";
-import { Container, Header, Body, Title, Right, Button, Icon, Content } from "native-base";
+import {
+  Container,
+  Header,
+  Body,
+  Title,
+  Right,
+  Button,
+  Icon,
+  Content,
+} from "native-base";
 import { styles } from "../common/styles";
 import { AddressListContainer } from "../components/AddressListContainer";
 
 export class HomeScreen extends React.Component<any> {
   static navigationOptions = {
     // tslint:disable-next-line:no-null-keyword
-    header: null
+    header: null,
   };
 
   public render() {
@@ -18,7 +27,10 @@ export class HomeScreen extends React.Component<any> {
           </Body>
           <Right>
             <Button transparent>
-              <Icon name="add" onPress={() => this.props.navigation.navigate("AddAddress")} />
+              <Icon
+                name="add"
+                onPress={() => this.props.navigation.navigate("AddAddress")}
+              />
             </Button>
           </Right>
         </Header>
