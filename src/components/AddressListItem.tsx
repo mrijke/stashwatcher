@@ -36,7 +36,7 @@ type CoinIconMapping = { [k in CoinType]: string };
 
 const coinIconMapping: CoinIconMapping = {
   btc: "",
-  ltc: "",
+  ltc: "",
   doge: "",
   eth: "",
 };
