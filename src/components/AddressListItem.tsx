@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { withNavigation, InjectedProps } from "react-navigation";
 import { ListItem, Left, Body, Right, Text } from "native-base";
 
-import { IEnhancedAddressInfo } from "../common/redux/coins";
+import { IEnhancedAddressInfo, selectors } from "../common/redux/coins";
 import { CoinType } from "../common/api/ApiClient";
 import { IValutaState } from "../common/redux/valuta";
 import { IRootState } from "../common/redux/index";
@@ -49,7 +49,9 @@ class AddressListItemComponent extends React.Component<
       const { type, balanceInfo: { balance } } = this.props.address;
       const rate = this.props.valuta[type];
       if (rate) {
-        return (balance / 100000000 * rate).toLocaleString("nl-NL", {
+        return (
+          selectors.getBalanceForAddress(this.props.address) * rate
+        ).toLocaleString("nl-NL", {
           style: "currency",
           currency: "EUR",
         });
@@ -79,7 +81,7 @@ class AddressListItemComponent extends React.Component<
           <Text>
             <Text style={styles.amountText}>
               {address.balanceInfo ? (
-                address.balanceInfo.balance / 100000000
+                selectors.getBalanceForAddress(address)
               ) : (
                 <Text note>N/A</Text>
               )}

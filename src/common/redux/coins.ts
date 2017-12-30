@@ -23,14 +23,27 @@ import _omit from "lodash-es/omit";
 
 import { IRootState } from "./index";
 
-const actionCreator = actionCreatorFactory("COINS");
-
 export interface IEnhancedAddressInfo {
   type: CoinType;
   address: string;
   description?: string;
   balanceInfo?: IAddressInfo;
 }
+
+const getBalanceForAddress = (address: IEnhancedAddressInfo): number => {
+  if (address.balanceInfo && address.balanceInfo.balance) {
+    return address.type === "eth"
+      ? address.balanceInfo.balance / 1000000000000000000
+      : address.balanceInfo.balance / 100000000;
+  }
+  return 0;
+};
+
+export const selectors = {
+  getBalanceForAddress,
+};
+
+const actionCreator = actionCreatorFactory("COINS");
 
 const FETCH_ADDRESS = "FETCH_ADDRESS";
 const performFetchAddress = actionCreator<IFetchAddressPayload>(FETCH_ADDRESS);
@@ -107,7 +120,11 @@ export const coinReducer = (
   }
   if (isType(action, fetchAddress.done)) {
     const newAddressBalance = action.payload.result;
-    const { address } = newAddressBalance;
+    let { address } = newAddressBalance;
+    if (action.payload.params.type === "eth") {
+      // api endpoint strips off 0x
+      address = "0x" + address;
+    }
     const newAddress: IEnhancedAddressInfo = {
       ...state.addresses[address],
       balanceInfo: newAddressBalance,

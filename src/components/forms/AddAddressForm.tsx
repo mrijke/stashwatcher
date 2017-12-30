@@ -40,6 +40,9 @@ const enhancer = withFormik<
       setFieldError("address", "This field is required");
       return;
     }
+    if (values.type === "eth") {
+      values.address = values.address.toLowerCase();
+    }
     props.addAddress(values);
     props.navigation.goBack();
   },
@@ -65,7 +68,6 @@ type AddAddressFormProps = IAddressFormOwnProps &
 
 class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
   public componentWillReceiveProps(nextProps: AddAddressFormProps) {
-    console.log(this.props.scannedAddress, nextProps.scannedAddress);
     if (
       nextProps.scannedAddress &&
       nextProps.scannedAddress !== this.props.scannedAddress
@@ -79,7 +81,6 @@ class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
   }
 
   public render() {
-    console.log(this.props.errors);
     return (
       <Form>
         <Picker
@@ -91,6 +92,7 @@ class AddAddressInnerForm extends React.Component<AddAddressFormProps> {
           <Picker.Item label="Bitcoin" value="btc" />
           <Picker.Item label="Litecoin" value="ltc" />
           <Picker.Item label="Dogecoin" value="doge" />
+          <Picker.Item label="Ethereum" value="eth" />
         </Picker>
         <FormItem stackedLabel>
           <Label>Address</Label>
