@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Text, View } from "native-base";
+import { get as emojiGet } from "node-emoji";
 
 import { IRootState } from "../common/redux/index";
 import { getTotalAmount } from "../common/redux/totals";
@@ -13,7 +14,7 @@ class TotalStash extends React.Component<ITotalStashStateProps> {
   public render() {
     return (
       <View padder>
-        <Text note>Total stash:</Text>
+        <Text note>Total {emojiGet("moneybag")}</Text>
         <Text style={{ fontWeight: "900" }}>{this.props.totalAmount.toLocaleString("nl-NL", {
           style: "currency",
           currency: "EUR",
