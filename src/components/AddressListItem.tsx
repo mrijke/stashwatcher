@@ -8,6 +8,7 @@ import { CoinType } from "../common/api/ApiClient";
 import { IValutaState } from "../common/redux/valuta";
 import { IRootState } from "../common/redux/index";
 import { connect } from "react-redux";
+import { getEuroAmountForAddress } from "../common/redux/totals";
 
 const styles = StyleSheet.create({
   addressText: {
@@ -32,7 +33,7 @@ interface IAddressListStateProps {
   valuta: IValutaState;
 }
 
-type CoinIconMapping = { [k in CoinType]: string };
+type CoinIconMapping = {[k in CoinType]: string };
 
 const coinIconMapping: CoinIconMapping = {
   btc: "",
@@ -43,21 +44,13 @@ const coinIconMapping: CoinIconMapping = {
 
 class AddressListItemComponent extends React.Component<
   IAddressListStateProps & IAddressListItemProps & InjectedProps
-> {
+  > {
   private convertToEuro() {
-    if (this.props.address.balanceInfo) {
-      const { type, balanceInfo: { balance } } = this.props.address;
-      const rate = this.props.valuta[type];
-      if (rate) {
-        return (
-          selectors.getBalanceForAddress(this.props.address) * rate
-        ).toLocaleString("nl-NL", {
-          style: "currency",
-          currency: "EUR",
-        });
-      }
-    }
-    return "N/A";
+    const amount = getEuroAmountForAddress(this.props.valuta, this.props.address);
+    return amount ? amount.toLocaleString("nl-NL", {
+      style: "currency",
+      currency: "EUR",
+    }) : "N/A";
   }
 
   public render() {
@@ -83,8 +76,8 @@ class AddressListItemComponent extends React.Component<
               {address.balanceInfo ? (
                 selectors.getBalanceForAddress(address)
               ) : (
-                <Text note>N/A</Text>
-              )}
+                  <Text note>N/A</Text>
+                )}
             </Text>{" "}
             <Text style={styles.valutaText}>{address.type.toUpperCase()}</Text>
           </Text>

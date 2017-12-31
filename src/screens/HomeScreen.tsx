@@ -8,9 +8,11 @@ import {
   Button,
   Icon,
   Content,
+  Text,
 } from "native-base";
 import { styles } from "../common/styles";
 import { AddressListContainer } from "../components/AddressListContainer";
+import { TotalStashContainer } from "../components/TotalStashContainer";
 
 export class HomeScreen extends React.Component<any> {
   static navigationOptions = {
@@ -35,6 +37,7 @@ export class HomeScreen extends React.Component<any> {
           </Right>
         </Header>
         <Content contentContainerStyle={styles.container}>
+          <TotalStashContainer />
           <AddressListContainer />
         </Content>
       </Container>
