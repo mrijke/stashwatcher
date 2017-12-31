@@ -9,6 +9,7 @@ import {
   Icon,
   Content,
   Text,
+  View,
 } from "native-base";
 import { styles } from "../common/styles";
 import { AddressListContainer } from "../components/AddressListContainer";
@@ -38,6 +39,12 @@ export class HomeScreen extends React.Component<any> {
         </Header>
         <Content contentContainerStyle={styles.container}>
           <TotalStashContainer />
+          <View
+            style={{
+              borderBottomColor: "#ccc",
+              borderBottomWidth: 3,
+            }}
+          />
           <AddressListContainer />
         </Content>
       </Container>
