@@ -33,7 +33,7 @@ interface IAddressListStateProps {
   valuta: IValutaState;
 }
 
-type CoinIconMapping = {[k in CoinType]: string };
+type CoinIconMapping = { [k in CoinType]: string };
 
 const coinIconMapping: CoinIconMapping = {
   btc: "",
@@ -44,13 +44,18 @@ const coinIconMapping: CoinIconMapping = {
 
 class AddressListItemComponent extends React.Component<
   IAddressListStateProps & IAddressListItemProps & InjectedProps
-  > {
+> {
   private convertToEuro() {
-    const amount = getEuroAmountForAddress(this.props.valuta, this.props.address);
-    return amount ? amount.toLocaleString("nl-NL", {
-      style: "currency",
-      currency: "EUR",
-    }) : "N/A";
+    const amount = getEuroAmountForAddress(
+      this.props.valuta,
+      this.props.address
+    );
+    return amount
+      ? amount.toLocaleString("nl-NL", {
+          style: "currency",
+          currency: "EUR",
+        })
+      : "N/A";
   }
 
   public render() {
@@ -76,8 +81,8 @@ class AddressListItemComponent extends React.Component<
               {address.balanceInfo ? (
                 selectors.getBalanceForAddress(address)
               ) : (
-                  <Text note>N/A</Text>
-                )}
+                <Text note>N/A</Text>
+              )}
             </Text>{" "}
             <Text style={styles.valutaText}>{address.type.toUpperCase()}</Text>
           </Text>

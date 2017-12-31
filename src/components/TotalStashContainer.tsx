@@ -14,18 +14,20 @@ class TotalStash extends React.Component<ITotalStashStateProps> {
   public render() {
     return (
       <View padder>
-        <Text note>Total {emojiGet("moneybag")}</Text>
-        <Text style={{ fontWeight: "900" }}>{this.props.totalAmount.toLocaleString("nl-NL", {
-          style: "currency",
-          currency: "EUR",
-        })}</Text>
+        <Text style={{ fontWeight: "900" }}>
+          {this.props.totalAmount.toLocaleString("nl-NL", {
+            style: "currency",
+            currency: "EUR",
+          })}{" "}
+          {emojiGet("moneybag")}
+        </Text>
       </View>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state: IRootState): ITotalStashStateProps => ({
-  totalAmount: getTotalAmount(state)
+  totalAmount: getTotalAmount(state),
 });
 
-export const TotalStashContainer = connect(mapStateToProps)(TotalStash)
+export const TotalStashContainer = connect(mapStateToProps)(TotalStash);
